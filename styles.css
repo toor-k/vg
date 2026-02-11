@@ -1,0 +1,495 @@
+/* ===================================
+   VALENTINE'S DAY TERMINAL - STYLES
+   =================================== */
+
+/* === GLOBAL RESET & BASE === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Color Palette */
+    --bg-dark: #0a0e14;
+    --terminal-bg: #0d1117;
+    --neon-green: #00ff41;
+    --neon-green-glow: rgba(0, 255, 65, 0.5);
+    --header-bg: #161b22;
+    --error-red: #ff4444;
+    --success-green: #00ff41;
+    
+    /* Typography */
+    --font-main: 'Fira Code', 'Courier New', monospace;
+    
+    /* Animations */
+    --typing-speed: 0.05s;
+    --glow-animation: 0.3s;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--bg-dark);
+    color: var(--neon-green);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* === TERMINAL CONTAINER === */
+#terminal-container {
+    width: 90%;
+    max-width: 900px;
+    height: 85vh;
+    background: var(--terminal-bg);
+    border: 2px solid var(--neon-green);
+    border-radius: 8px;
+    box-shadow: 
+        0 0 20px var(--neon-green-glow),
+        inset 0 0 20px rgba(0, 255, 65, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: terminalFadeIn 1s ease-out;
+}
+
+@keyframes terminalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* === TERMINAL HEADER === */
+#terminal-header {
+    background: var(--header-bg);
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--neon-green);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    text-shadow: 0 0 5px var(--neon-green-glow);
+}
+
+.header-title {
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.header-status {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* === TERMINAL CONTENT === */
+#terminal {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#terminal-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    font-size: 1rem;
+    line-height: 1.6;
+    scrollbar-width: thin;
+    scrollbar-color: var(--neon-green) var(--terminal-bg);
+}
+
+#terminal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+#terminal-content::-webkit-scrollbar-track {
+    background: var(--terminal-bg);
+}
+
+#terminal-content::-webkit-scrollbar-thumb {
+    background: var(--neon-green);
+    border-radius: 4px;
+}
+
+/* === TERMINAL TEXT ELEMENTS === */
+.terminal-line {
+    margin-bottom: 10px;
+    opacity: 0;
+    animation: fadeInLine 0.3s ease-out forwards;
+}
+
+@keyframes fadeInLine {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.system-message {
+    color: var(--neon-green);
+    text-shadow: 0 0 5px var(--neon-green-glow);
+}
+
+.challenge-text {
+    color: #00ddff;
+    font-weight: 500;
+    margin-top: 15px;
+    text-shadow: 0 0 8px rgba(0, 221, 255, 0.6);
+}
+
+.error-message {
+    color: var(--error-red);
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(255, 68, 68, 0.8);
+    animation: errorPulse 0.5s ease-out;
+}
+
+@keyframes errorPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.success-message {
+    color: var(--success-green);
+    font-weight: 700;
+    text-shadow: 0 0 15px var(--neon-green-glow);
+    animation: successGlow 0.8s ease-out;
+}
+
+@keyframes successGlow {
+    0% {
+        text-shadow: 0 0 5px var(--neon-green-glow);
+    }
+    50% {
+        text-shadow: 0 0 25px var(--neon-green-glow), 0 0 35px var(--neon-green-glow);
+    }
+    100% {
+        text-shadow: 0 0 10px var(--neon-green-glow);
+    }
+}
+
+.loading-message {
+    color: #ffaa00;
+    font-style: italic;
+    text-shadow: 0 0 8px rgba(255, 170, 0, 0.6);
+}
+
+/* === INPUT LINE === */
+#input-line {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(0, 255, 65, 0.05);
+    border-top: 1px solid var(--neon-green);
+    gap: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#input-line.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.prompt {
+    color: var(--neon-green);
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-shadow: 0 0 10px var(--neon-green-glow);
+    flex-shrink: 0;
+}
+
+#user-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--neon-green);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    text-shadow: 0 0 5px var(--neon-green-glow);
+    padding: 0;
+    margin: 0;
+    line-height: 1.5;
+}
+
+#user-input::placeholder {
+    color: rgba(0, 255, 65, 0.3);
+}
+
+/* === BLINKING CURSOR === */
+.cursor {
+    color: var(--neon-green);
+    animation: blink 1s step-end infinite;
+    font-weight: 400;
+    flex-shrink: 0;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* === CELEBRATION CANVAS === */
+#celebration-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    pointer-events: none;
+}
+
+#celebration-canvas.hidden {
+    display: none;
+}
+
+/* === FINAL MESSAGE === */
+#final-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 14, 20, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    opacity: 0;
+    animation: finalFadeIn 2s ease-out forwards;
+}
+
+#final-message.hidden {
+    display: none;
+}
+
+@keyframes finalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.message-content {
+    text-align: center;
+    padding: 40px;
+}
+
+.access-granted {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--neon-green);
+    text-shadow: 
+        0 0 20px var(--neon-green-glow),
+        0 0 40px var(--neon-green-glow),
+        0 0 60px var(--neon-green-glow);
+    margin-bottom: 30px;
+    animation: accessGrantedPulse 2s ease-in-out infinite;
+}
+
+@keyframes accessGrantedPulse {
+    0%, 100% {
+        transform: scale(1);
+        text-shadow: 
+            0 0 20px var(--neon-green-glow),
+            0 0 40px var(--neon-green-glow);
+    }
+    50% {
+        transform: scale(1.05);
+        text-shadow: 
+            0 0 30px var(--neon-green-glow),
+            0 0 60px var(--neon-green-glow),
+            0 0 80px var(--neon-green-glow);
+    }
+}
+
+.valentine-message {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ff69b4;
+    text-shadow: 
+        0 0 15px rgba(255, 105, 180, 0.8),
+        0 0 30px rgba(255, 105, 180, 0.6);
+    margin-bottom: 20px;
+    animation: valentineFloat 3s ease-in-out infinite;
+}
+
+@keyframes valentineFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.love-message {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #ff1744;
+    text-shadow: 
+        0 0 20px rgba(255, 23, 68, 0.8),
+        0 0 40px rgba(255, 23, 68, 0.6);
+    margin-bottom: 30px;
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    10%, 30% {
+        transform: scale(1.1);
+    }
+    20%, 40% {
+        transform: scale(1);
+    }
+}
+
+.heart-quote {
+    font-size: 1.3rem;
+    color: var(--neon-green);
+    font-style: italic;
+    text-shadow: 0 0 10px var(--neon-green-glow);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+    animation: quoteFadeIn 2s ease-out 1s both;
+}
+
+@keyframes quoteFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === SCREEN GLITCH EFFECT === */
+.glitch {
+    animation: glitch 0.5s ease-out;
+}
+
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+    }
+    20% {
+        transform: translate(-5px, 5px);
+        filter: hue-rotate(90deg);
+    }
+    40% {
+        transform: translate(5px, -5px);
+        filter: hue-rotate(180deg);
+    }
+    60% {
+        transform: translate(-5px, -5px);
+        filter: hue-rotate(270deg);
+    }
+    80% {
+        transform: translate(5px, 5px);
+        filter: hue-rotate(360deg);
+    }
+    100% {
+        transform: translate(0);
+        filter: hue-rotate(0deg);
+    }
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+    #terminal-container {
+        width: 95%;
+        height: 90vh;
+    }
+    
+    #terminal-header {
+        font-size: 0.75rem;
+        padding: 10px 15px;
+    }
+    
+    #terminal-content {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+    
+    #input-line {
+        padding: 12px 15px;
+    }
+    
+    .access-granted {
+        font-size: 2rem;
+    }
+    
+    .valentine-message {
+        font-size: 1.5rem;
+    }
+    
+    .love-message {
+        font-size: 2rem;
+    }
+    
+    .heart-quote {
+        font-size: 1rem;
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .access-granted {
+        font-size: 1.5rem;
+    }
+    
+    .valentine-message {
+        font-size: 1.2rem;
+    }
+    
+    .love-message {
+        font-size: 1.5rem;
+    }
+    
+    .heart-quote {
+        font-size: 0.9rem;
+    }
+}
+
+/* === UTILITY CLASSES === */
+.hidden {
+    display: none !important;
+}
+
+.fade-out {
+    animation: fadeOut 1s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
